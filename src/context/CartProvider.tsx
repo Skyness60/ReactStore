@@ -1,7 +1,7 @@
 import { useReducer, useEffect } from "react";
 import { CartContext } from "./CartContext";
 import { cartReducer } from "./cartReducer";
-import type { CartState } from "../types/carts";
+import type { CartState } from "../types/Carts";
 
 const initialState: CartState = {
   items: [],
@@ -9,13 +9,11 @@ const initialState: CartState = {
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, initialState, (init) => {
-    // Charge le panier depuis localStorage au démarrage
     const stored = localStorage.getItem("cart");
     return stored ? JSON.parse(stored) : init;
   });
 
   useEffect(() => {
-    // Sauvegarde le panier à chaque modification
     localStorage.setItem("cart", JSON.stringify(state));
   }, [state]);
 

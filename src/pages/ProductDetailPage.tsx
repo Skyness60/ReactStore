@@ -1,7 +1,8 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useCart } from "../hooks/useCart";
 import { useOneProduct } from "../hooks/useOneProduct";
+import { useAuth } from "../hooks/useAuth";
 import "./ProductDetailPage.css";
 
 
@@ -9,11 +10,29 @@ export default function ProductDetailPage() {
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
   const { addItem } = useCart();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const { product, loading } = useOneProduct(id);
 
   if (loading) return <div>Chargement...</div>;
   if (!product) return <div>Produit introuvable</div>;
 
+  function handleAddToCart() {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    if (!product) {
+      return;
+    }
+    addItem({ 
+      id: String(product.id),
+      name: product.title,
+      price: product.price,
+      quantity,
+      image: product.image
+    });
+  }
   return (
     <main className="product-detail-container">
     <h2 className="product-detail-title">{product.title}</h2>
@@ -30,11 +49,12 @@ export default function ProductDetailPage() {
         onChange={e => setQuantity(Number(e.target.value))}
         />
     </div>
-    <button
+      <button
         className="product-detail-add-btn"
-        onClick={() => addItem({ id: String(product.id), name: product.title, price: product.price, quantity, image: product.image })}>
+        onClick={handleAddToCart}
+      >
         Ajouter au panier
-    </button>
+      </button>
     </main>
   );
 }
