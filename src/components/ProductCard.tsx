@@ -1,6 +1,7 @@
 import type { Product } from "../types/Product";
 import type { JSX } from "react";
 import { useProducts } from "../hooks/useProduct";
+import { Link } from "react-router-dom";
 import "./ProductCard.css"
 import { Spinner } from "./Spinner";
 
@@ -20,10 +21,11 @@ export function ProductCard() : JSX.Element
         <div className="product-card-container">
             {products.map((product: Product) => {
                 return (
-                    <div 
-                        key={product.id} 
-                        className="product-card" 
-                        aria-label={product.title}
+                    <Link
+                        key={product.id}
+                        to={`${product.id}`}
+                        className="product-card"
+                        aria-label={`Voir les détails de ${product.title}`}
                     >
                         <div className="product-media">
                             <img 
@@ -40,15 +42,8 @@ export function ProductCard() : JSX.Element
                             <div className="product-price" aria-label={`Prix: ${product.price} dollars`}>
                                 ${product.price.toFixed(2)}
                             </div>
-
-                            <button 
-                                className="btn-buy" 
-                                aria-label={`Acheter ${product.title}`}
-                            >
-                                <span>Acheter</span>
-                            </button>
                         </div>
-                    </div>
+                    </Link>
                 );
             })}
         </div>
