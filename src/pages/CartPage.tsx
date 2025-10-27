@@ -4,7 +4,6 @@ import { useCart } from "../hooks/useCart";
 export default function CartPage() {
   const { state, removeItem, clearCart } = useCart();
 
-  // Calcul du prix total du panier
   const total = state.items.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
