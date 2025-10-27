@@ -2,17 +2,14 @@ import type { Product } from "../types/Product";
 import type { JSX } from "react";
 import { useProducts } from "../hooks/useProduct";
 import "./ProductCard.css"
+import { Spinner } from "./Spinner";
 
 export function ProductCard() : JSX.Element
 {
     const { products, loading, error } = useProducts();
 
     if (loading) {
-        return (
-            <div className="loading-container">
-                <div className="spinner" role="status" aria-label="Chargement des produits"></div>
-            </div>
-        );
+        return (<Spinner />);
     }
 
     if (error) {
