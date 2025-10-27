@@ -7,3 +7,11 @@ export async function getProducts() : Promise<Product[]>
         throw new Error("Erreur de serveur")
     return res.json()
 }
+
+export async function getProductById(id: string) : Promise<Product>
+{
+    const res = await fetch(`https://fakestoreapi.com/products/${id}`)
+    if (!res)
+        throw new Error("Erreur de serveur")
+    return res.json()
+}
