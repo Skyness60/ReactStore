@@ -1,32 +1,11 @@
-import { getProducts } from "../api/product";
-import { useEffect, useState } from "react";
 import type { Product } from "../types/Product";
 import type { JSX } from "react";
+import { useProducts } from "../hooks/useProduct";
 import "./ProductCard.css"
 
 export function ProductCard() : JSX.Element
 {
-    const [products, setProducts] = useState<Product[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        let mounted = true;
-        getProducts()
-            .then((data) => {
-                if (mounted) {
-                    setProducts(data);
-                    setLoading(false);
-                }
-            })
-            .catch((err) => {
-                if (mounted) {
-                    setError(String(err) || "Failed to load products");
-                    setLoading(false);
-                }
-            });
-        return () => { mounted = false; };
-    }, []);
+    const { products, loading, error } = useProducts();
 
     if (loading) {
         return (
@@ -42,7 +21,7 @@ export function ProductCard() : JSX.Element
 
     return (
         <div className="product-card-container">
-            {products.map((product: Omit<Product, 'description' | 'category'>) => {
+            {products.map((product: Product) => {
                 return (
                     <div 
                         key={product.id} 

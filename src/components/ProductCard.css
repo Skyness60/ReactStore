@@ -10,11 +10,6 @@
     animation: fadeIn 0.6s ease-out;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
 .product-card {
     position: relative;
     display: flex;
@@ -26,12 +21,12 @@
     border: 1px solid rgba(226, 232, 240, 0.8);
     transition: all 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
     backdrop-filter: blur(10px);
-    animation: cardEnter 0.5s ease-out backwards;
+    animation: fadeIn 0.5s ease-out backwards;
 }
 
-@keyframes cardEnter {
-    from { opacity: 0; transform: translateY(30px) scale(0.95); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .product-card:nth-child(n+1):nth-child(-n+6) { animation-delay: calc(0.05s * (var(--i, 1))); }
@@ -133,7 +128,7 @@
 }
 
 .btn-buy {
-    all: unset;
+    transition: box-shadow 350ms, transform 350ms;
     cursor: pointer;
     display: flex;
     align-items: center;
